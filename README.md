@@ -1,6 +1,8 @@
 # Reserva App
 
-Aplicação de exemplo para aulas sobre desenvolvimento web backend e criação de multipage applications utilizand Python e Flask.
+Projeto para avaliação do 2º bimestre de LP3.
+
+Aplicação de exemplo para aulas sobre desenvolvimento web backend e criação de multipage applications utilizandO Python e Flask.
 
 ## Usuários vs. Funcionalidades
 - Administrador
