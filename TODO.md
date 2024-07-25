@@ -1,5 +1,7 @@
 # Já feito
-- Rotas para todas as páginas
+
+# Fazendo
+- Rotas para todas as páginas (tem que definir como faremos no "listar-salas.html")
 
 # A fazer
 - Uso de templates (tudo certo) e layouts (a fazer)
