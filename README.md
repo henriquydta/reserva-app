@@ -2,7 +2,15 @@
 
 Projeto para avaliação do 2º bimestre de LP3.
 
-Aplicação de exemplo para aulas sobre desenvolvimento web backend e criação de multipage applications utilizandO Python e Flask.
+# Para utilizar
+
+* Instalar o Poetry no computador
+* Configurar o virtual environment (venv) do Poetry para o projeto
+* Verificar se está tudo configurado corretamente
+  * Flask funcionando? Venv escolhido corretamente?
+* poetry run flask --app reserva_app/app.py run
+
+Aplicação de exemplo para aulas sobre desenvolvimento web backend e criação de multipage applications utilizando Python e Flask.
 
 ## Usuários vs. Funcionalidades
 - Administrador
