@@ -10,6 +10,9 @@ Projeto para avaliação do 2º bimestre de LP3.
   * Flask funcionando? Venv escolhido corretamente?
 * poetry run flask --app reserva_app/app.py run
 
+
+# Descrição
+
 Aplicação de exemplo para aulas sobre desenvolvimento web backend e criação de multipage applications utilizando Python e Flask.
 
 ## Usuários vs. Funcionalidades
