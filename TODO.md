@@ -1,10 +1,24 @@
-# Já feito
+# Funções principais
 
-# Fazendo
+## Já feito
+- Uso de templates (tudo certo)
+- Cadastro usuário (feito em csv)
+- Reservar sala - arquivo csv
+- Cadastrar sala - arquivo csv
+
+## Fazendo
 - Rotas para todas as páginas (tem que definir como faremos no "listar-salas.html")
 
-# A fazer
-- Uso de templates (tudo certo) e layouts (a fazer)
-- Cadastrar sala e listar sala - arquivo csv
-- Reservar sala - arquivo csv
-- Cadastro usuário
+## A fazer
+- Uso de layouts (a fazer)
+- Listar sala - arquivo csv
+
+# Ajustes
+
+## Já feito
+
+## Fazendo
+
+## A fazer
+- Exibir os dados da reserva nos detalhes
+- Exibir salas registradas no csv em detalhe-sala

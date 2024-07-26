@@ -24,11 +24,11 @@
             <!-- <a class="nav-link active" aria-current="page" href="/templates/reservas.html">Minhas Reservas</a> -->
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/reservas/nova">Reservar Sala</a>
+            <a class="nav-link" href="/reservas/nova">Reservar Sala</a>
           </li>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Gerenciar Salas
             </a>
             <ul class="dropdown-menu">
@@ -47,31 +47,26 @@
   <div class="container">
     <div class="row mt-4">
       <div class="col">
-        <h1>Reservar Sala</h1>
-        <p>Utilize o formulário abaixo para reservar uma sala</p>
+        <h1>Sala nova registrada!</h1>
+        <p><b>ID:</b> 3</p>
+        <p><b>Tipo:</b> 30/04/2024 - 14:00</p>
+        <p><b>Descrição:</b> 30/04/2024 - 16:30</p>
+        <p><b>Capacidade:</b></p>
+        <p><b>Ativa:</b></p>
+        <p> Registrado por ADM </p>
       </div>
     </div>
-    <div>
-      <div class="col">
-        <form action="/reservas/nova/processar" method="post">
-          <div class="mb-3">
-            <label for="sala" class="form-label">Sala</label>
-            <select class="form-select" id="sala" name="sala">
-              <option selected>Selecione a sala</option>
-              <option value="1">Sala 1</option>
-              <option value="2">Sala 2</option>
-              <option value="3">Sala 3</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="inicio" class="form-label">Data e Hora Início</label>
-            <input type="datetime-local" class="form-control" name="inicio" id="inicio">
-          </div>
-          <div class="mb-3">
-            <label for="fim" class="form-label">Data e Hora Fim</label>
-            <input type="datetime-local" class="form-control" name="fim" id="fim">
-          </div>
-          <button type="submit" class="btn btn-dark">Reservar</button>
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <h3>Gerar Comprovante</h3>
+        <p>Gere o pdf do comprovante de reserva.</p>
+        <a href="" class="btn btn-dark">Gerar Comprovante</a>
+      </div>
+      <div class="col-md-6 mb-4">
+        <h3>Cancelar Reserva</h3>
+        <p>Você pode cancelar a reserva até 12 horas antes do início da reserva.</p>
+        <form action="">
+          <button class="btn btn-dark">Cancelar Reserva</button>
         </form>
       </div>
     </div>
