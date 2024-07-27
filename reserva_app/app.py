@@ -1,23 +1,21 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 from datetime import datetime
 
 app = Flask("Reserva App")
+app.secret_key = "chave-secreta" # (?)
 
-idSala = 0
-
-def format_datetime_br(dt_string):
-    dt = datetime.strptime(dt_string, "%Y-%m-%dT%H:%M")
-    formatted_dt = dt.strftime("%d/%m/%Y %H:%M")
-    return formatted_dt
-
+# Início
 @app.route('/')
 def inicio():
     return render_template('login.html')
 
+''' Cadastro de usuários '''
+# Tela de cadastro
 @app.route('/cadastro')
 def cadastro():
     return render_template('cadastro.html')
 
+# Processar cadastro
 @app.route('/cadastro/processar', methods=['POST'])
 def processar_cadastro():
     nome = request.form['nome']
@@ -30,14 +28,18 @@ def processar_cadastro():
     
     return redirect('/')
 
+''' Reservas '''
+# Lista reservas
 @app.route('/reservas')
 def reserva():
     return render_template('reservas.html')
 
+# Nova reserva
 @app.route('/reservas/nova')
 def nova_reserva():
     return render_template('reservar-sala.html')
 
+# Métodos para processar corretamente a reserva
 def indice_num_reserva(linha):
     dados = (linha.strip().split(","))
     try:
@@ -53,6 +55,12 @@ def ultimo_num_reserva():
         return ultimoId[-1]
     return 0  # Valor padrão quando a lista está vazia
 
+def format_datetime_br(dt_string):
+    dt = datetime.strptime(dt_string, "%Y-%m-%dT%H:%M")
+    formatted_dt = dt.strftime("%d/%m/%Y %H:%M")
+    return formatted_dt
+
+# Rota para processar reserva
 @app.route('/reservas/nova/processar', methods=['POST'])
 def processar_reserva():
     numReserva = ultimo_num_reserva() + 1
@@ -70,6 +78,7 @@ def processar_reserva():
     
     return redirect('/reservas/nova/sucesso')
 
+# Métodos para leitura do arquivo de reservas
 def reserva_para_dicionario(linha):
     dados = (linha.strip().split(","))
     return {
@@ -87,20 +96,25 @@ def obter_reserva_dicionario():
             reservas.append(reserva)
         return reservas
 
+# Exibe detalhes da última reserva
 @app.route('/reservas/nova/sucesso')
 def detalhe_reserva():
     lista_reservas = obter_reserva_dicionario()
     ultima_reserva = lista_reservas[-1]
     return render_template('reserva/detalhe-reserva.html', ultima_reserva = ultima_reserva)
 
+''' Salas '''
+# Listar salas
 @app.route('/salas')
 def listar_salas():
     return render_template('listar-salas.html')
 
+# Cadastrar nova sala
 @app.route('/salas/nova')
 def nova_sala():
     return render_template('cadastrar-sala.html')
 
+# Métodos para processar corretamente a sala, verificando o último ID registrado
 def indice_id(linha):
     dados = (linha.strip().split(","))
     try:
@@ -116,22 +130,50 @@ def ultimo_id():
         return ultimoId[-1]
     return 0  # Valor padrão quando a lista está vazia
 
+# Rota para processar a sala
 @app.route('/salas/nova/processar', methods=['POST'])
 def processar_sala():
-    idSala = ultimo_id() + 1
+    id_sala = ultimo_id() + 1
     tipo = request.form['tipo']
     capacidade = request.form['capacidade']
     descricao = request.form['descricao']
+    ativa = True
+    usuario = "ADM"
     
-    texto = f"{idSala},{tipo},{capacidade},{descricao}\n"
+    if tipo == "1":
+        tipo_string = "Laboratório de Informática"
+    elif tipo == "2":
+        tipo_string = "Laboratório de Química"
+    elif tipo == "3":
+        tipo_string = "Sala de Aula"
+        
+    if ativa:
+        ativa_string = "Sim"
+    else:
+        ativa_string = "Não"
+    
+    sala_registrada = {
+        "id_sala": id_sala,
+        "tipo": tipo_string,
+        "capacidade": capacidade,
+        "descricao": descricao,
+        "ativa": ativa_string,
+        "usuario": "ADM"
+    }
+    
+    session['ultimaSalaRegistradaPeloUsuario'] = sala_registrada
+    
+    texto = f"{id_sala},{tipo},{capacidade},{descricao}\n"
     with open("reserva_app/files/salas.csv", "a", encoding="utf-8") as salas:
         salas.write(texto)
 
     return redirect('/salas/nova/sucesso')
-    
+
+# Detalhes da sala registrada
 @app.route('/salas/nova/sucesso')
 def detalhe_sala():
-    return render_template('detalhe-sala.html')
+    sala_registrada = session.get('ultimaSalaRegistradaPeloUsuario')
+    return render_template('detalhe-sala.html', salaRegistrada = sala_registrada)
 
 if __name__ == '__main__':
     app.run(debug=True)

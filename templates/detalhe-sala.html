@@ -47,13 +47,15 @@
   <div class="container">
     <div class="row mt-4">
       <div class="col">
+        {% block content %}
         <h1>Sala nova registrada!</h1>
-        <p><b>ID:</b> 3</p>
-        <p><b>Tipo:</b> 30/04/2024 - 14:00</p>
-        <p><b>Descrição:</b> 30/04/2024 - 16:30</p>
-        <p><b>Capacidade:</b></p>
-        <p><b>Ativa:</b></p>
-        <p> Registrado por ADM </p>
+        <p><b>ID:</b> {{salaRegistrada.id_sala}}</p>
+        <p><b>Tipo:</b> {{salaRegistrada.tipo}}</p>
+        <p><b>Descrição:</b> {{salaRegistrada.descricao}}</p>
+        <p><b>Capacidade:</b> {{salaRegistrada.capacidade}}</p>
+        <p><b>Ativa:</b> {{salaRegistrada.ativa}}</p>
+        <p> Registrado por {{salaRegistrada.usuario}}</p>
+        {% endblock %}
       </div>
     </div>
     <div class="row">
