@@ -58,11 +58,11 @@
     {% block content %}
     <div class="row mt-4">
       <div class="col">
-        <h1>Reserva #{{ultima_reserva.numReserva}}</h1>
-        <p><b>Sala:</b> {{ultima_reserva.sala}}</p>
-        <p><b>Início:</b> {{ultima_reserva.inicio}}</p>
-        <p><b>Fim:</b> {{ultima_reserva.fim}}</p>
-        <p>Reservado para Nome do Professor</p>
+        <h1>Reserva #{{reserva.numReserva}}</h1>
+        <p><b>Sala:</b> {{reserva.sala}}</p>
+        <p><b>Início:</b> {{reserva.inicio}}</p>
+        <p><b>Fim:</b> {{reserva.fim}}</p>
+        <p>Reservado para {{reserva.usuario}}</p>
       </div>
     </div>  
     {% endblock %}

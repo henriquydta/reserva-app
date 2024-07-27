@@ -72,6 +72,16 @@ def processar_reserva():
     inicio_formatado = format_datetime_br(inicio)
     fim_formatado = format_datetime_br(fim)
     
+    reserva = {
+        "numReserva": numReserva,
+        "sala": sala,
+        "inicio": inicio_formatado,
+        "fim": fim_formatado,
+        "usuario": "ADM"
+    }
+    
+    session['ultimaReservaRegistradaPeloUsuario'] = reserva
+    
     texto = f"{numReserva},{sala},{inicio_formatado},{fim_formatado}\n"
     with open("reserva_app/files/reservas.csv", "a", encoding="utf-8") as reservas:
         reservas.write(texto)
@@ -95,19 +105,49 @@ def obter_reserva_dicionario():
             reserva = reserva_para_dicionario(linha)
             reservas.append(reserva)
         return reservas
-
+    
+lista_reservas = obter_reserva_dicionario()
+ultima_reserva = lista_reservas[-1]
+    
 # Exibe detalhes da última reserva
 @app.route('/reservas/nova/sucesso')
 def detalhe_reserva():
-    lista_reservas = obter_reserva_dicionario()
-    ultima_reserva = lista_reservas[-1]
-    return render_template('reserva/detalhe-reserva.html', ultima_reserva = ultima_reserva)
+    reserva = session.get('ultimaReservaRegistradaPeloUsuario')
+    return render_template('reserva/detalhe-reserva.html', reserva = reserva)
 
 ''' Salas '''
+# Métodos para leitura do arquivo de salas
+def sala_para_dicionario(linha):
+    dados = (linha.strip().split(","))
+    
+    if dados[1] == "1":
+        tipo = "Laboratório de Informática"
+    elif dados[1] == "2":
+        tipo = "Laboratório de Química"
+    elif dados[1] == "3":
+        tipo = "Sala de Aula"
+        
+    return {
+        "id": dados[0],
+        "sala": tipo,
+        "capacidade": dados[2],
+        "descricao": dados[3],   
+        "ativa": "Sim"     
+    }
+
+def obter_dicionario_salas():
+    with open("reserva_app/files/salas.csv", "r", encoding="utf-8") as arquivo_salas:
+        salas = []
+        for linha in arquivo_salas:
+            sala = sala_para_dicionario(linha)
+            salas.append(sala)
+        return salas
+
 # Listar salas
 @app.route('/salas')
 def listar_salas():
-    return render_template('listar-salas.html')
+    lista_salas = obter_dicionario_salas()
+    return render_template('listar-salas.html', salas = lista_salas)
 
 # Cadastrar nova sala
 @app.route('/salas/nova')
