@@ -1,6 +1,6 @@
 # Reserva App
 
-Projeto para avaliação do 2º bimestre de LP3.
+Projeto para avaliação na matéria LP3.
 
 # Para utilizar
 
