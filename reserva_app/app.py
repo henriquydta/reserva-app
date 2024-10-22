@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 from datetime import datetime
+import mysql.connector
 
 app = Flask("Reserva App")
 app.secret_key = "chave-secreta" # (?)
@@ -15,6 +16,15 @@ def inicio():
 def cadastro():
     return render_template('cadastro.html')
 
+def get_db_connection():
+    conn = mysql.connector.connect(
+        host='localhost',
+        user='estudante1',
+        password='teste123',
+        database='teste_python'
+    )
+    return conn
+
 # Processar cadastro
 @app.route('/cadastro/processar', methods=['POST'])
 def processar_cadastro():
@@ -22,10 +32,18 @@ def processar_cadastro():
     email = request.form['email']
     senha = request.form['password']
     
+    '''
     texto = f"{nome},{email},{senha}\n"
     with open("reserva_app/files/usuarios.csv", "a", encoding="utf-8") as usuarios:
         usuarios.write(texto)
-    
+    '''
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO usuario (Nome, Email, Senha) VALUES (%s, %s, %s)", (nome, email, senha))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
     return redirect('/')
 
 ''' Reservas '''
@@ -82,12 +100,21 @@ def processar_reserva():
     
     session['ultimaReservaRegistradaPeloUsuario'] = reserva
     
+    ## INSERT
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO reserva (Data_Hota_Inicio, Data_Hora_Final, ID_usuario, ID_sala) VALUES (%s, %s, %s)", (inicio_formatado, fim_formatado, senha))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    '''
     texto = f"{numReserva},{sala},{inicio_formatado},{fim_formatado}\n"
     with open("reserva_app/files/reservas.csv", "a", encoding="utf-8") as reservas:
         reservas.write(texto)
     
     return redirect('/reservas/nova/sucesso')
-
+'''
 # Métodos para leitura do arquivo de reservas
 def reserva_para_dicionario(linha):
     dados = (linha.strip().split(","))
@@ -100,6 +127,7 @@ def reserva_para_dicionario(linha):
 
 def obter_reserva_dicionario():
     with open("reserva_app/files/reservas.csv", "r") as arquivo_reserva:
+        ## SELECT
         reservas = []
         for linha in arquivo_reserva:
             reserva = reserva_para_dicionario(linha)
@@ -217,3 +245,13 @@ def detalhe_sala():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+'''
+def conexao_sql (sala, reserva, usuario):
+    return mysql.connector.connect(sala=sala, reserva=reserva, usuario=usuario)
+
+def fechar_conexao (con):
+    con.close
+    '''
