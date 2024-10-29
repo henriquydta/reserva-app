@@ -1,5 +1,7 @@
 CREATE DATABASE reserva_app;
 
+use reserva_app;
+
 CREATE TABLE usuario (
 	id_usuario INT PRIMARY KEY AUTO_INCREMENT,
 	nome VARCHAR(100) NOT NULL,
