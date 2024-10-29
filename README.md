@@ -8,7 +8,7 @@ Projeto para avaliação na matéria LP3.
 * Configurar o virtual environment (venv) do Poetry para o projeto
 * Verificar se está tudo configurado corretamente
   * Flask funcionando? Venv escolhido corretamente?
-* poetry run python reserva_app/app.py
+* poetry run python -m reserva_app.app
 
 # Descrição
 

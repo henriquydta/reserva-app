@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, redirect, session
 from datetime import datetime
-import mysql.connector
+from .db import get_db_connection
 
 app = Flask("Reserva App")
-app.secret_key = "chave-secreta" # (?)
+app.secret_key = "chave-secreta"
 
 # Início
 @app.route('/')
@@ -15,15 +15,6 @@ def inicio():
 @app.route('/cadastro')
 def cadastro():
     return render_template('cadastro.html')
-
-def get_db_connection():
-    conn = mysql.connector.connect(
-        host='localhost',
-        user='estudante1',
-        password='teste123',
-        database='teste_python'
-    )
-    return conn
 
 # Processar cadastro
 @app.route('/cadastro/processar', methods=['POST'])
@@ -101,13 +92,6 @@ def processar_reserva():
     session['ultimaReservaRegistradaPeloUsuario'] = reserva
     
     ## INSERT
-
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO reserva (Data_Hota_Inicio, Data_Hora_Final, ID_usuario, ID_sala) VALUES (%s, %s, %s)", (inicio_formatado, fim_formatado, senha))
-    conn.commit()
-    cursor.close()
-    conn.close()
     '''
     texto = f"{numReserva},{sala},{inicio_formatado},{fim_formatado}\n"
     with open("reserva_app/files/reservas.csv", "a", encoding="utf-8") as reservas:
